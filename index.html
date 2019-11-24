@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Keccak</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="utils.js"></script>
+    <script src="keccak.js"></script>
+</head>
+<body>
+<h1>Keccak-&fnof;[25]</h1>
+<p>
+    RC[<b id="round"></b>] = 0x<b id="rc"></b>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" onclick="nextRound()">Next Round</button>
+</p>
+
+<hr>
+<!--Theta Step-->
+<div>
+    <table>
+        <caption><h2>&theta; Step</h2></caption>
+        <tr>
+            <th scope="col">Input</th>
+            <th scope="col"></th>
+            <th scope="col">C[]</th>
+            <th scope="col"></th>
+            <th scope="col">D[]</th>
+            <th scope="col"></th>
+            <th scope="col">&theta; Output</th>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input id="04" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="14" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="24" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="34" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="44" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="03" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="13" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="23" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="33" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="43" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="02" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="12" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="22" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="32" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="42" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="01" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="11" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="21" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="31" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="41" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="00" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="10" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="20" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="30" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                        <td><input id="40" type="number" min="0" max="1" value="0" oninput="theta()"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>&rAarr;</td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="c00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="c01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="c02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="c03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="c04" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </td>
+            <td>&rAarr;</td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="d00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="d01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="d02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="d03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="d04" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </td>
+            <td>&rAarr;</td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="a04" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a14" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a24" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a34" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a44" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="a03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a13" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a23" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a33" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a43" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="a02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a12" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a22" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a32" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a42" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="a01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a11" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a21" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a31" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a41" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="a00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a10" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a20" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a30" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="a40" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<!--Pi Step-->
+<div>
+    <table>
+        <caption><h2>&pi; Step</h2></caption>
+        <tr>
+            <th scope="col">Input</th>
+            <th scope="col"></th>
+            <th scope="col">&pi; Output</th>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input id="pi04" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi14" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi24" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi34" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi44" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="pi03" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi13" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi23" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi33" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi43" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="pi02" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi12" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi22" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi32" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi42" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="pi01" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi11" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi21" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi31" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi41" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="pi00" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi10" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi20" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi30" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                        <td><input id="pi40" type="number" min="0" max="1" value="0" oninput="pi()"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td style="width: 100px"></td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="pib04" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib14" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib24" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib34" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib44" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="pib03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib13" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib23" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib33" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib43" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="pib02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib12" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib22" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib32" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib42" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="pib01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib11" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib21" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib31" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib41" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="pib00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib10" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib20" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib30" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="pib40" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<!--Chi Step-->
+<div>
+    <table>
+        <caption><h2>&chi; Step</h2></caption>
+        <tr>
+            <th scope="col">Original B[x,y]</th>
+            <th scope="col">&oplus;</th>
+            <th scope="col">(&nbsp;B&#772[x+1,y]</th>
+            <th scope="col">&and;</th>
+            <th scope="col">B[x+2,y]&nbsp;)</th>
+            <th scope="col">&rArr;</th>
+            <th scope="col">New A[x,y]</th>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input id="chi04" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi14" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi24" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi34" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi44" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="chi03" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi13" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi23" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi33" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi43" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="chi02" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi12" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi22" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi32" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi42" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="chi01" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi11" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi21" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi31" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi41" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="chi00" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi10" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi20" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi30" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                        <td><input id="chi40" type="number" min="0" max="1" value="0" oninput="chi()"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>&rAarr;</td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="chii04" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii14" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii24" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii34" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii44" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chii03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii13" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii23" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii33" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii43" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chii02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii12" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii22" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii32" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii42" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chii01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii11" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii21" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii31" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii41" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chii00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii10" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii20" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii30" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chii40" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>&rAarr;</td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="chio04" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio14" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio24" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio34" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio44" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chio03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio13" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio23" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio33" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio43" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chio02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio12" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio22" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio32" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio42" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chio01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio11" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio21" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio31" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio41" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chio00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio10" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio20" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio30" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chio40" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td>&rAarr;</td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="chia04" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia14" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia24" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia34" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia44" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chia03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia13" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia23" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia33" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia43" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chia02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia12" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia22" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia32" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia42" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chia01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia11" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia21" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia31" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia41" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="chia00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia10" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia20" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia30" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="chia40" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<!--Iota Step-->
+<div>
+    <table>
+        <caption><h2>&iota; Step</h2></caption>
+        <tr>
+            <th scope="col">Input</th>
+            <th scope="col">&bigoplus;</th>
+            <th scope="col">Final Output</th>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="iota04" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota14" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota24" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota34" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota44" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="iota03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota13" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota23" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota33" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota43" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="iota02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota12" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota22" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota32" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota42" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="iota01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota11" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota21" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota31" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota41" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input id="iota00" type="number" min="0" max="1" value="0" oninput="iota()"></td>
+                        <td><input readonly id="iota10" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota20" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota30" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="iota40" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td style="width: 100px;text-align: center">0b<b id="rcbit"></b></td>
+            <td>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td><input readonly id="final04" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final14" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final24" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final34" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final44" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="final03" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final13" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final23" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final33" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final43" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="final02" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final12" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final22" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final32" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final42" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="final01" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final11" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final21" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final31" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final41" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td><input readonly id="final00" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final10" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final20" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final30" type="number" min="0" max="1" value="0"></td>
+                        <td><input readonly id="final40" type="number" min="0" max="1" value="0"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script type="text/javascript">
+    setRC();
+    theta();
+</script>
+</html>
