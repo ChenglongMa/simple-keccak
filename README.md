@@ -12,13 +12,11 @@ Each round function consists of 5 steps to process the state: $ \{ \theta \right
 
 The $\theta$ Step is defined as below:
 $$
-\begin{equation}\label{theta}
-\begin{cases}
+\begin{cases}\label{theta}
 C[x] = A[x,0] \oplus A[x,1] \oplus A[x,2] \oplus A[x,3] \oplus A[x,4] ,& x \in [0,4] \\
 D[x] = C[x-1] \oplus rot(C[x+1],1), & x \in [0,4] \\
 A[x,y] = A[x,y] \oplus D[x] , & x,y \in [0,4] \\
 \end{cases}
-\end{equation}
 $$
 
 where $ A[x,y] $ indicates the *lane* in *column* $ x $ and *row* $ y $; thus $ C[x] $ is a bitwise $ XOR $ summation between all rows of column $ x $.
@@ -27,4 +25,4 @@ Particularly, as there is only slice in our implementation, the $ rot $ function
 Thereafter, $ D[x] $ combines $ C[x-1] $ and $ C[x+1] $ by $ XOR $ summation.
 Finally, the output of each single value in $ A[] $ of this step obtains from the original $ A[x,y] ~XOR~ D[x]$.
 
-An example of this step is shown below (Fig.~\ref{fig:theta}), including input and all outputs of intermediate steps.
+An example of this step is shown below, including input and all outputs of intermediate steps.
