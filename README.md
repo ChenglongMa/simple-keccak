@@ -1,4 +1,4 @@
-# Keccak-$ f[25] $
+# Keccak-f[25]
 
 ## Report
 The report can be viewed at [here](https://chenglongma.com/10/simple-keccak/).
